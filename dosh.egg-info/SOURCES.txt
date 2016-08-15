@@ -1,0 +1,9 @@
+setup.py
+dosh/__init__.py
+dosh/containers.py
+dosh/dosh.py
+dosh.egg-info/PKG-INFO
+dosh.egg-info/SOURCES.txt
+dosh.egg-info/dependency_links.txt
+dosh.egg-info/entry_points.txt
+dosh.egg-info/top_level.txt

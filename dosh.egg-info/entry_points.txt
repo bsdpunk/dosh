@@ -1,0 +1,3 @@
+[console_scripts]
+dosh = dosh.dosh:cli
+

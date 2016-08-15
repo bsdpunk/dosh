@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: dosh
+Version: 0.1
+Summary: Remote shell for docker
+Home-page: bsdpunk.blogspot.com
+Author: Dusty C
+Author-email: bsdpunk@gmail.com.com
+License: BSD
+Description: UNKNOWN
+Keywords: Shell cli terminal financial data
+Platform: UNKNOWN
