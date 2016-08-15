@@ -36,14 +36,13 @@ COMMANDS = sorted(['containers'])
 
 #For X number of arguements
 ONE = ['containers']
-TWO = ['esx-destroy-vm','esx-create-from-ova','linode-list-ip', 'nodebal-node-list', 'nodebal-config-list', 'nodebal-create', 'linode-shutdown','domain-resource-list','esx-change-cd','esx-vm-device-info', 'esx-check-tools','esx-get-vm-uuid','broad-ad-search','esx-get-vm-name','sat-list-systems','jump','which','domain-resource-list']
-THREE = ['esx-create-from-ovf','linode-create','domain-resource-list', 'esx-change-cd']
+TWO = ['containers']
+THREE = ['nothing']
 FOUR = ['domain-resource-create']
 FIVE = ['domain-resource-create']
 SIX = ['linode-disk-dist']
 #For what class
 RHSAT= ['sat-system-group-audit', 'sat-list-systems','sat-list-all-groups','sat-system-version','sat-list-users','sat-get-api-call','sat-get-version']
-ADNET= ['search-for-name']
 CONTAINER= ['containers']
 HELPER = ['hidden','?','help', 'quit', 'exit','clear','ls', 'version', 'qotd']
 UCOMMANDS = ['search-for-id','which','jump']
@@ -88,11 +87,12 @@ else:
     password = getpass.getpass("Password:")
     #vcenter = raw_input("VCenter Server (ex: company.local):")
     #sat_url =raw_input("Satellite Server Url (ex: https://redhat/rhn/rpc/api):")
+    docker_ip =raw_input("Docker IP or Server uRL (EX: docker.local or 127.0.0.1):")
     #jump =raw_input("Jump Server(IP or DNS):")
     #linode_api_key = getpass.getpass("Linode-API-Key:")
     #api_key = linode_api_key 
 
-    config= {"default":[{"username":username,"password":password}]}
+    config= {"default":[{"username":username,"password":password, "docker-ip":docker_ip}]}
     
     config_file_new = open(config_file, "w")
     config_f = str(config)
@@ -113,6 +113,7 @@ def get_sat_key(config):
     #global username
     username = config["default"][0]["username"]
     password = config["default"][0]["password"]
+    docker_ip = config["default"][0]["docker-ip"]
     #sat_url = config["default"][0]["sat_url"]
     #vcenter = config["default"][0]["vcenter"]
     #lkey = config["default"][0]["Linode-API-Key"]
@@ -120,6 +121,7 @@ def get_sat_key(config):
     key={}
     key['username']=username
     key['password']=password
+    key['docker-ip']=docker_ip
     #key['platform']=ucommands.os_platform()
     #key['vcenter']=vcenter
     #key['si']=None
@@ -190,33 +192,10 @@ def cli():
         #Write try statement here for error catching
         command = cli.split(' ', 1)[0]
 
-        if command in ADNET:
-            l_class = 'adnet'
-        elif command in RHSAT:
-            if key['client'] == '':
-                print("You do not have a Redhat Satellite server in your ~/.trash.sh")
-                command = ""
-                cli = ""
-            else:
-                l_class = 'rhsat'
-        elif command in DOMAIN:
-            l_class = 'domain'
-        elif command in CONTAINER:
+        if command in CONTAINER:
             l_class = 'containers'
         elif command in LU:
             l_class = 'lin_utility'
-        elif command in NB:
-            l_class = 'node_balance'
-        elif command in UCOMMANDS:
-            l_class = 'ucommands'
-        elif command in VMUTILS:
-            if key['si'] == None:
-                si = esxi_connect(key)
-                    
-                atexit.register(Disconnect, si)
-            
-            key['si'] = si 
-            l_class = 'vmutils'
         else:
             l_class = ''
         
